@@ -1,15 +1,42 @@
 services:
+  db:
+    image: postgres:17
+    container_name: image_server_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: images_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      TZ: Europe/Moscow
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "images_db"]
+      interval: 2s
+      retries: 15
+
   app:
     build: .
     container_name: image_server_app
     restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
       - images:/app/images
-      - logs:/app/logs
+      - ./logs:/app/logs
     ports:
       - "8000:8000"
     environment:
-      - PYTHONUNBUFFERED=1
+      PYTHONUNBUFFERED: 1
+      TZ: Europe/Moscow
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: images_db
+      DB_USER: postgres
+      DB_PASSWORD: password
 
   nginx:
     image: nginx:1.30
@@ -25,4 +52,4 @@ services:
 
 volumes:
   images:
-  logs:
+  db_data:

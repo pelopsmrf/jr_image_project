@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Сервер картинок</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1>Загрузка изображения на наш сервер!</h1>
 
     {% if error %}
-        <p style="color: red;">{{ error }}</p>
+        <p class="error">{{ error }}</p>
     {% endif %}
 
     {% if url %}
@@ -22,6 +23,6 @@
         <br>
         <input type="submit" value="Загрузить">
     </form>
-    <p><a href="/">Назад на главную</a></p>
+    <p><a href="/images-list">Все изображения</a> | <a href="/">На главную</a></p>
 </body>
 </html>

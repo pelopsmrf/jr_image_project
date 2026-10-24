@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сервер картинок</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Список изображений</h1>
+
+    {% if images %}
+        <table>
+            <tr>
+                <th>Имя файла</th>
+                <th>Оригинальное имя</th>
+                <th>Размер (КБ)</th>
+                <th>Дата загрузки</th>
+                <th>Тип файла</th>
+                <th></th>
+            </tr>
+            {% for img in images %}
+                <tr>
+                    <td><a href="{{ images_url }}{{ img.filename }}">{{ img.filename }}</a></td>
+                    <td>{{ img.original_name }}</td>
+                    <td>{{ (img.size / 1024) | round(1) }}</td>
+                    <td>{{ img.upload_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ img.file_type }}</td>
+                    <td>
+                        <form action="/delete/{{ img.id }}" method="post">
+                            <button type="submit" class="delete">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Нет загруженных изображений</p>
+    {% endif %}
+
+    <div class="pagination">
+        {% if has_prev %}
+            <a class="button" href="/images-list?page={{ page - 1 }}">Предыдущая страница</a>
+        {% else %}
+            <span class="button disabled">Предыдущая страница</span>
+        {% endif %}
+
+        <span>Страница {{ page }}</span>
+
+        {% if has_next %}
+            <a class="button" href="/images-list?page={{ page + 1 }}">Следующая страница</a>
+        {% else %}
+            <span class="button disabled">Следующая страница</span>
+        {% endif %}
+    </div>
+
+    <p><a href="/upload">Загрузить изображение</a> | <a href="/">На главную</a></p>
+</body>
+</html>

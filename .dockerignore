@@ -3,5 +3,6 @@ _old/
 images/
 logs/
 log/
+backups/
 .venv/
 __pycache__/
