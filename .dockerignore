@@ -1,0 +1,7 @@
+*.log
+_old/
+images/
+logs/
+log/
+.venv/
+__pycache__/

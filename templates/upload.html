@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сервер картинок</title>
+</head>
+<body>
+    <h1>Загрузка изображения на наш сервер!</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if url %}
+        <p>Изображение загружено!</p>
+        <p>ID файла: {{ file_id }}</p>
+        <p>Ссылка: <a href="{{ url }}">{{ url }}</a></p>
+    {% endif %}
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png, .gif">
+        <br>
+        <input type="submit" value="Загрузить">
+    </form>
+    <p><a href="/">Назад на главную</a></p>
+</body>
+</html>

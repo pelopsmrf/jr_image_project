@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сервер картинок</title>
+</head>
+<body>
+    <h1>Список изображений</h1>
+    {% if files %}
+        <ul>
+            {% for name in files %}
+                <li><a href="{{ images_url }}{{ name }}">{{ name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Пока нет загруженных изображений.</p>
+    {% endif %}
+    <p><a href="/">Назад на главную</a></p>
+</body>
+</html>
